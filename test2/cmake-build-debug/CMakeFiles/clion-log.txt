@@ -1,0 +1,7 @@
+/home/bee/Apps/apps/CLion/ch-0/171.4694.4/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/bee/Projects/CLionProjects/test2
+-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libGL.so  
+-- Found GLEW: /usr/include  
+-- Found GLUT: /usr/lib/x86_64-linux-gnu/libglut.so  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/bee/Projects/CLionProjects/test2/cmake-build-debug

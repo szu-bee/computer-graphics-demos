@@ -19,12 +19,12 @@ const int LINE_NUM_POINTS = 2;
 const int TOTAL_NUM_POINTS = TRIANGLE_NUM_POINTS + SQUARE_NUM_POINTS + LINE_NUM_POINTS +
                              CIRCLE_NUM_POINTS + ELLIPSE_NUM_POINTS;
 
-// 锟斤拷锟斤拷锟斤拷锟斤拷蔚锟矫匡拷锟斤拷嵌锟�
+// 获得三角形的每个角度
 double getTriangleAngle(int point) {
     return 2 * M_PI / 3 * point;
 }
 
-// 锟斤拷锟斤拷锟斤拷锟斤拷蔚锟矫匡拷锟斤拷嵌锟�
+// 获得正方形的每个角度
 double getSquareAngle(int point) {
     return M_PI / 4 + (M_PI / 2 * point);
 }
@@ -71,7 +71,7 @@ void generateLinePoints(vec2 vertices[], vec3 colors[], int startVertexIndex) {
 }
 
 
-// 锟斤拷锟皆诧拷系牡锟�
+// 获得圆上的点
 vec2 getEllipseVertex(vec2 center, double scale, double verticalScale, double angle) {
     vec2 vertex(sin(angle), cos(angle));
     vertex *= scale;
@@ -80,7 +80,7 @@ vec2 getEllipseVertex(vec2 center, double scale, double verticalScale, double an
     return vertex;
 }
 
-// 锟斤拷锟捷角讹拷锟斤拷锟斤拷锟斤拷色
+// 根据角度生成颜色
 float generateAngleColor(double angle) {
     return 1.0 / (2 * M_PI) * angle;
 }
@@ -107,67 +107,67 @@ void init() {
     vec2 vertices[TOTAL_NUM_POINTS];
     vec3 colors[TOTAL_NUM_POINTS];
 
-    // 锟斤拷锟缴革拷锟斤拷锟斤拷状锟较的碉拷
+    // 生成各种形状上的点
     generateTrianglePoints(vertices, colors, 0);
     generateSquarePoints(vertices, colors, SQUARE_NUM, TRIANGLE_NUM_POINTS);
     generateLinePoints(vertices, colors, TRIANGLE_NUM_POINTS + SQUARE_NUM_POINTS);
 
-    /*锟斤拷锟斤拷圆锟轿猴拷锟斤拷圆锟较的碉拷锟斤拷锟缴�*/
+    /*生成圆形和椭圆上的点和颜色*/
     vec2 circleCenter(0, 0.45);
     generateEllipsePoints(vertices, colors, TRIANGLE_NUM_POINTS + SQUARE_NUM_POINTS + LINE_NUM_POINTS,
                           CIRCLE_NUM_POINTS, circleCenter, 0.26, 1.0);
     generateEllipsePoints(vertices, colors, TOTAL_NUM_POINTS - ELLIPSE_NUM_POINTS,
                           ELLIPSE_NUM_POINTS, vec2(0, 2), 0.08, 0.25);
 
-    // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟�
+    // 创建顶点数组对象
     GLuint vao[1];
     glGenVertexArrays(1, vao);
     glBindVertexArray(vao[0]);
 
-    // 锟斤拷锟斤拷锟斤拷锟斤拷始锟斤拷锟斤拷锟姐缓锟斤拷锟斤拷锟�
+    // 创建并初始化顶点缓存对象
     GLuint buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(colors), NULL, GL_STATIC_DRAW);
 
-    // 锟街憋拷锟饺★拷锟斤拷锟�
+    // 分别读取数据
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(colors), colors);
 
-    // 锟斤拷取锟斤拷色锟斤拷锟斤拷使锟斤拷
+    // 读取着色器并使用
     GLuint program = InitShader("vshader.glsl", "fshader.glsl");
     glUseProgram(program);
 
-    // 锟接讹拷锟斤拷锟斤拷色锟斤拷锟叫筹拷始锟斤拷锟斤拷锟斤拷锟轿伙拷锟�
+    // 从顶点着色器中初始化顶点的位置
     GLuint pLocation = glGetAttribLocation(program, "vPosition");
     glEnableVertexAttribArray(pLocation);
     glVertexAttribPointer(pLocation, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-    // 锟斤拷片元锟斤拷色锟斤拷锟叫筹拷始锟斤拷锟斤拷锟斤拷锟斤拷锟缴�
+    // 从片元着色器中初始化顶点的颜色
     GLuint cLocation = glGetAttribLocation(program, "vColor");
     glEnableVertexAttribArray(cLocation);
     glVertexAttribPointer(cLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 
-    // 锟斤拷色锟斤拷锟斤拷
+    // 黑色背景
     glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 void display(void) {
-    // 锟斤拷锟斤拷锟斤拷
+    // 清理窗口
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+    // 绘制三角形
     glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_NUM_POINTS);
-    // 锟斤拷锟狡讹拷锟斤拷锟斤拷锟斤拷锟�
+    // 绘制多个正方形
     for (int i = 0; i < SQUARE_NUM; ++i) {
         glDrawArrays(GL_TRIANGLE_FAN, TRIANGLE_NUM_POINTS + (i * 4), 4);
     }
-    // 锟斤拷锟斤拷锟斤拷
+    // 绘制线
     glDrawArrays(GL_LINES, TRIANGLE_NUM_POINTS + SQUARE_NUM_POINTS, LINE_NUM_POINTS);
 
-    // 锟斤拷锟斤拷圆
+    // 绘制圆
     glDrawArrays(GL_TRIANGLE_FAN, TRIANGLE_NUM_POINTS + SQUARE_NUM_POINTS + LINE_NUM_POINTS,
                  CIRCLE_NUM_POINTS);
-    // 锟斤拷锟斤拷锟斤拷圆
+    // 绘制椭圆
     glDrawArrays(GL_TRIANGLE_FAN, TOTAL_NUM_POINTS - ELLIPSE_NUM_POINTS,
                  ELLIPSE_NUM_POINTS);
 
@@ -182,7 +182,7 @@ int main(int argc, char **argv) {
     glutInitContextVersion(3, 3);
     glutInitContextProfile(GLUT_CORE_PROFILE);
 
-    glutCreateWindow("Magic Eyed Robot without hands");
+    glutCreateWindow("Magic Eyed Robot without hands (by 2015150155)");
 
     glewExperimental = GL_TRUE;
     glewInit();

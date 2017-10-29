@@ -182,7 +182,7 @@ int main(int argc, char **argv) {
     glutInitContextVersion(3, 3);
     glutInitContextProfile(GLUT_CORE_PROFILE);
 
-    glutCreateWindow("Magic Eyed Robot without hands (by 2015150155)");
+    glutCreateWindow("Magic Eyed Robot without hands");
 
     glewExperimental = GL_TRUE;
     glewInit();

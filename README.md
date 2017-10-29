@@ -1,3 +1,3 @@
 # computer-graphics-demos
 
-Just open a project in clion, and run it!
+After Environment Configuration finished, just open a project in clion, and run it!

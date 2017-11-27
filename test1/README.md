@@ -2,7 +2,7 @@
 
 实验内容
 在Windows系统下完成OpenGL的环境配置，编译并成功运行你的OpenGL程序。该程序需使用现代OpenGL中的着色器，绘制一个包含各种图元的二维图形，必须有：线、三角形、圆、椭圆、多边形，并且使用的颜色也要多样化。参考下图所示（也可以自行设计房屋、机器人等二维图形，只要包含各种简单图元即可）： 
-[](../display/Picture1.png)
+[](https://github.com/szu-bee/computer-graphics-demos/blob/master/display/Picture1.png)
 
 
 具体内容包括：

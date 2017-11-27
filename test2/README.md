@@ -2,7 +2,7 @@
 
 实验内容
 读取off格式三维模型，对其赋色。并利用鼠标和键盘的交互生成动画。
-[](../display/Picture2.png)
+![](https://github.com/szu-bee/computer-graphics-demos/blob/master/display/Picture2.png)
 
 
 具体内容包括：

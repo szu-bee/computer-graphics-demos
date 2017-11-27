@@ -1,0 +1,3 @@
+/home/bee/Projects/CLionProjects/CGWorks/test3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/bee/Projects/CLionProjects/CGWorks/test3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/bee/Projects/CLionProjects/CGWorks/test3/cmake-build-debug/CMakeFiles/test3.dir

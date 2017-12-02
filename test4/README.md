@@ -1,11 +1,13 @@
-## 光照与阴影
+## 纹理贴图
 
 实验内容
+
 实例代码中已经实现了My_Mesh::generate_cylinder()函数，该函数生成一个圆柱体曲面，将该曲面贴上纹理后效果如下：
 ![实例代码所用贴图](../display/Picture4-1.png)
 ![效果图](../display/Picture4-2.png)
 
 请实现
+
 void My_Mesh::generate_disk()；
 void My_Mesh::generate_cone()；
 生成圆盘的几何和纹理坐标，生成圆锥的几何和纹理坐标，使得圆盘表面纹理显示为texture/ disk.jpg中的圆盘；使得圆锥表面纹理显示为texture/ cone.jpg中的三角图形。参考实验效果如下：

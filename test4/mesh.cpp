@@ -70,15 +70,17 @@ const point3f &My_Mesh::get_center() {
     return this->m_center_;
 };
 
-// @TODO ´Ë¶Î´úÂë½ÏÍ¨ÓÃ£¬Îª±ÜÃâÈßÓà£¬½«Ëü³é³É´Ëº¯Êı
-// ´«ÈëzÖá£¬°´cosºÍsinÉú³Éx£¬y×ø±ê
+// @TODO æ­¤æ®µä»£ç è¾ƒé€šç”¨ï¼Œä¸ºé¿å…å†—ä½™ï¼Œå°†å®ƒæŠ½æˆæ­¤å‡½æ•°
+// ä¼ å…¥zè½´ï¼ŒæŒ‰coså’Œsinç”Ÿæˆxï¼Œyåæ ‡
 void My_Mesh::genXY(int num_samples, float step, float z) {
+    // å¯¹360åº¦å®Œæˆnum_samplesæ¬¡é‡‡æ ·
     for (int i = 0; i < num_samples; i++) {
-        // iRadian: µ±Ç°i²ÉÑùµãµÄ»¡¶È
+        // iRadian: å½“å‰ié‡‡æ ·ç‚¹çš„å¼§åº¦
         float iRadian = i * step * AngleToRadian;
         float x = cos(iRadian);
         float y = sin(iRadian);
 
+        // ç”Ÿæˆä¸€åœˆçš„é¡¶ç‚¹
         m_vertices_.push_back(x);
         m_vertices_.push_back(y);
         m_vertices_.push_back(z);
@@ -87,18 +89,18 @@ void My_Mesh::genXY(int num_samples, float step, float z) {
         m_normals_.push_back(y);
         m_normals_.push_back(0);
 
-        // ·¨ÏßÓÉÀïÏòÍâ
+        // æ³•çº¿ç”±é‡Œå‘å¤–
         float r, g, b;
         My_Mesh::normal_to_color(x, y, z, r, g, b);
 
-        // ÕâÀï²ÉÓÃ·¨ÏßÀ´Éú³ÉÑÕÉ«£¬¿ÉÒÔ×Ô¶¨Òå×Ô¼ºµÄÑÕÉ«Éú³É·½Ê½
+        // è¿™é‡Œé‡‡ç”¨æ³•çº¿æ¥ç”Ÿæˆé¢œè‰²ï¼Œå¯ä»¥è‡ªå®šä¹‰è‡ªå·±çš„é¢œè‰²ç”Ÿæˆæ–¹å¼
         m_color_list_.push_back(r);
         m_color_list_.push_back(g);
         m_color_list_.push_back(b);
     }
 }
 
-// @TODO Éú³ÉÔ²ÅÌ
+// @TODO ç”Ÿæˆåœ†ç›˜
 void My_Mesh::generate_disk(int num_division) {
     this->clear_data();
     this->m_center_ = point3f(0, 0, 0);
@@ -108,13 +110,13 @@ void My_Mesh::generate_disk(int num_division) {
     int num_samples = num_division;
     float step = 1.0 * 360 / num_samples;
 
-    // @TODO Ô²ÅÌZÖáÎª0(¼´¶şÎ¬Æ½Ãæ)£¬°´cosºÍsinÉú³Éx£¬y×ø±ê
+    // @TODO åœ†ç›˜Zè½´ä¸º0(å³äºŒç»´å¹³é¢)ï¼ŒæŒ‰coså’Œsinç”Ÿæˆxï¼Œyåæ ‡
     float z = 0;
     genXY(num_samples, step, z);
 
-    // Éú³ÉÈı½ÇÃæÆ¬
+    // ç”Ÿæˆä¸‰è§’é¢ç‰‡
     for (int i = 0; i < num_samples; i++) {
-        // Éú³ÉÈı½ÇÃæÆ¬
+        // ç”Ÿæˆä¸‰è§’é¢ç‰‡
         m_faces_.push_back(i);
         m_faces_.push_back((i + 1) % num_samples);
         m_faces_.push_back(num_samples);
@@ -122,18 +124,18 @@ void My_Mesh::generate_disk(int num_division) {
         float iRadian = i * step * AngleToRadian;
         float x = (cos(iRadian) + 1) / 2;
         float y = (sin(iRadian) + 1) / 2;
-        // ÎÆÀí×ø±ê
+        // çº¹ç†åæ ‡
         m_vt_list_.push_back(x);
         m_vt_list_.push_back(y);
 
         iRadian = (i + 1) * step * AngleToRadian;
         x = (cos(iRadian) + 1) / 2;
         y = (sin(iRadian) + 1) / 2;
-        // ÎÆÀí×ø±ê
+        // çº¹ç†åæ ‡
         m_vt_list_.push_back(x);
         m_vt_list_.push_back(y);
 
-        // ÎÆÀí×ø±ê
+        // çº¹ç†åæ ‡
         m_vt_list_.push_back(0.5);
         m_vt_list_.push_back(0.5);
     }
@@ -143,7 +145,7 @@ void My_Mesh::generate_disk(int num_division) {
     m_faces_.push_back(0);
 };
 
-// @TODO Éú³ÉÔ²×¶Ìå
+// @TODO ç”Ÿæˆåœ†é”¥ä½“
 void My_Mesh::generate_cone(int num_division, float height) {
     this->clear_data();
     this->m_center_ = point3f(0, 0, height / 2);
@@ -153,12 +155,12 @@ void My_Mesh::generate_cone(int num_division, float height) {
     int num_samples = num_division;
     float step = 1.0 * 360 / num_samples;
 
-    // @TODO Ô²×¶Ìåµ×Ãæ²¿·Ö
-    // Ô²ÅÌZÖáÎª0(¼´¶şÎ¬Æ½Ãæ)£¬°´cosºÍsinÉú³Éx£¬y×ø±ê
+    // @TODO åœ†é”¥ä½“åº•é¢éƒ¨åˆ†
+    // åœ†ç›˜Zè½´ä¸º0(å³äºŒç»´å¹³é¢)ï¼ŒæŒ‰coså’Œsinç”Ÿæˆxï¼Œyåæ ‡
     float z = 0;
     genXY(num_samples, step, z);
 
-    // @TODO Ô²×¶Ìå¶¥µã²¿·Ö
+    // @TODO åœ†é”¥ä½“é¡¶ç‚¹éƒ¨åˆ†
     m_vertices_.push_back(0);
     m_vertices_.push_back(0);
     m_vertices_.push_back(height);
@@ -167,23 +169,23 @@ void My_Mesh::generate_cone(int num_division, float height) {
     m_normals_.push_back(0);
     m_normals_.push_back(1);
 
-    // ·¨ÏßÓÉÀïÏòÍâ
+    // æ³•çº¿ç”±é‡Œå‘å¤–
     float r, g, b;
     My_Mesh::normal_to_color(0, 0, 1, r, g, b);
 
-    // ²ÉÓÃ·¨ÏßÀ´Éú³ÉÑÕÉ«
+    // é‡‡ç”¨æ³•çº¿æ¥ç”Ÿæˆé¢œè‰²
     m_color_list_.push_back(r);
     m_color_list_.push_back(g);
     m_color_list_.push_back(b);
 
     for (int i = 0; i < num_samples; i++) {
-        // Éú³ÉÈı½ÇÃæÆ¬
+        // ç”Ÿæˆä¸‰è§’é¢ç‰‡
         m_faces_.push_back(num_samples);
         m_faces_.push_back(i % num_samples);
         m_faces_.push_back((i + 1) % num_samples);
 
-        // ÎÆÀí×ø±ê
-        // @TODO ²Ã¼ôÈı½ÇĞÎÎÆÀí£¬±Ü¿ª±ß½ç°×Ïß
+        // çº¹ç†åæ ‡
+        // @TODO è£å‰ªä¸‰è§’å½¢çº¹ç†ï¼Œé¿å¼€è¾¹ç•Œç™½çº¿
         m_vt_list_.push_back(0.5);
         m_vt_list_.push_back(.98);
 
@@ -195,7 +197,7 @@ void My_Mesh::generate_cone(int num_division, float height) {
     }
 };
 
-// Éú³ÉÔ²ÖùÌå
+// ç”Ÿæˆåœ†æŸ±ä½“
 void My_Mesh::generate_cylinder(int num_division, float height) {
     this->clear_data();
     this->m_center_ = point3f(0, 0, 0);
@@ -205,15 +207,16 @@ void My_Mesh::generate_cylinder(int num_division, float height) {
     int num_samples = num_division;
     float step = 1.0 * 360 / num_samples;
 
-    // @TODO Ô²ÖùÌåZÖáÏòÉÏ£¬°´cosºÍsinÉú³Éx£¬y×ø±ê
+    // @TODO åœ†æŸ±ä½“Zè½´å‘ä¸Šï¼ŒæŒ‰coså’Œsinç”Ÿæˆxï¼Œyåæ ‡
     float z = -height;
     genXY(num_samples, step, z);
 
     z = height;
     genXY(num_samples, step, z);
 
-    // Éú³ÉÈı½ÇÃæÆ¬
+    // ç”Ÿæˆä¸‰è§’é¢ç‰‡
     for (int i = 0; i < num_samples; i++) {
+        // ç”±å››ä¸ªé¡¶ç‚¹ç”Ÿæˆ2ä¸ªä¸‰è§’é¢ç‰‡
         m_faces_.push_back(i);
         m_faces_.push_back((i + 1) % num_samples);
         m_faces_.push_back(i + num_samples);
@@ -222,7 +225,9 @@ void My_Mesh::generate_cylinder(int num_division, float height) {
         m_faces_.push_back((i + 1) % num_samples);
         m_faces_.push_back((i + num_samples + 1) % (num_samples) + num_samples);
 
-        // ÎÆÀí×ø±ê
+        // çº¹ç†åæ ‡
+        // å°†0-360åº¦æ˜ å°„åˆ°UVåæ ‡çš„0-1
+
         m_vt_list_.push_back(1.0 * i / num_samples);
         m_vt_list_.push_back(0.0);
 
